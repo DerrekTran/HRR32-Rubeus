@@ -29,11 +29,8 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-<<<<<<< HEAD
     "jquery": "^3.3.1",
     "mysql": "^2.15.0",
-=======
->>>>>>> deleted index.jx
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "sequelize": "^4.38.0",
