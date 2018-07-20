@@ -11,6 +11,8 @@ class App extends React.Component {
     this.state = {
       zip: '',
       state: 'tx',
+      username: '',
+      password: '',
       data: [ { name: 'John Cornyn',
           address: [ [Object] ],
           party: 'Republican',
@@ -89,6 +91,9 @@ class App extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.setUsername = this.setUsername.bind(this);
+    this.setPassword = this.setPassword.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
 
@@ -121,6 +126,34 @@ class App extends React.Component {
       zip: this.state.zip
     })
     .then(function (response) {
+      if (typeof(response.data) === 'String') {
+        console.log(response.data);
+      } else {
+        console.log(response.data);
+      }
+    })
+  }
+
+  setUsername (event) {
+    this.setState({
+      username: event.target.value
+    })
+  }
+
+  setPassword (event) {
+    this.setState({
+      password: event.target.value
+    })
+  }
+
+  handleLogin (event) {
+    console.log('hello')
+    console.log(this.state.username, this.state.password)
+    axios.post('/login', {
+      username: this.state.username,
+      password: this.state.password
+      })
+    .then(function (response) {
       console.log(response);
     })
   }
@@ -142,6 +175,11 @@ class App extends React.Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
+        <input value={this.state.username} type="text" onChange={this.setUsername}/>
+          <br></br>
+        <input value={this.state.password} type="text" onChange={this.setPassword}/>
+          <br></br>
+        <button onClick={this.handleLogin}>login</button>
         <p>{this.state.zip}</p>
       <ListView data={this.state.data} state={this.state.state}/>
       </div>
