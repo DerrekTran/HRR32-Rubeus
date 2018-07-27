@@ -4,6 +4,7 @@ import axios from 'axios';
 import ZipForm from './components/ZipForm.jsx';
 import LoginForm from './components/LoginForm.jsx';
 import ListView from './components/ListView.jsx';
+import Chat from './components/Chat.jsx';
 
 const styles = {
   master: {
@@ -69,6 +70,7 @@ class App extends React.Component {
         <ZipForm onSubmit={(zip, region) => this.handleSubmit(zip, region)} />
         <LoginForm />
         <ListView data={this.state.data} />
+        <Chat />
       </div>;
   }
 }
