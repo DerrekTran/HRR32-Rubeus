@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import axios from 'axios';
 
 class Chat extends Component {
     constructor(props) {
@@ -28,6 +29,12 @@ class Chat extends Component {
         this.setUsername = this.setUsername.bind(this);
         this.setMessage = this.setMessage.bind(this);
     }
+    componentDidMount () {
+        console.log('mounted')
+        axios.get('/auth/currentUser', function(userData) {
+            console.log(userData);
+        })
+    }
 
     sendMessage (e) {
         e.preventDefault();
@@ -36,7 +43,7 @@ class Chat extends Component {
             author: this.state.username,
             message: this.state.message
         });
-        this.setState({message: ''});
+        
     }
 
     setUsername (e) {
