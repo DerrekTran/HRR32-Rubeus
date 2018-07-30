@@ -11,8 +11,11 @@ export default class TownHallContainer extends Component {
         This is the Town Hall Container. This is the parent component of the Town Hall Feature. When users click on the Town Hall in the nav panel, they will see this.
         <CreateTownHall />
         <ViewAllTownHalls />
-        <ViewTownHall />
       </div>
     )
   }
 }
+
+//        <ViewTownHall />
+
+

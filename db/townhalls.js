@@ -74,41 +74,72 @@ var createQuestion = (questionBody, userRowId, hallName) => {
 Function Name: getQuestions
 Input:  Town Hall Name (string)
 
-Output:  an array composed of question arrays.
-          Each question array can be represented as:
-         [townHallQuestion, townHallQuestionAnswer]
+Output:  an array composed of question/answer objects for the townHall name
+         passed in.
 
-         if no answer has been provided to the question it will be
-         of only length 1 such as:
-         [townHallQuestion]
+         Each object within the array will contain a question
+         property and if that particular question has an answer, the object
+         will also contain an answer property.
 
 
 Description: Used to insert a question assigned to a
              specific townHall and user
 ***************************************************************************/
+// var getQuestions = (hallName) => {
+//   return new Promise ((resolve, reject) => {
+//     hallName = String(hallName);
+//     const inserts = [hallName];
+//     const sql = 'SELECT townhall_id, question, response FROM questions q WHERE q.townhall_id =  (SELECT id FROM townhalls where name like (?))';
+//     c.connection.query(sql, inserts, (err, results, data) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         //Init a question array that will hold objects of questions and answers
+//         let questions = [];
+
+//         results.forEach(rowData => {
+//           let tempObject = {};
+//           tempObject.question = rowData.question;
+
+//           /*Check if there is an answer, if there is create an answer property on the object*/
+//           rowData.response ? tempObject.answer = rowData.response : null;
+
+//           //now push the tempObject into the main array (that will be returned to frontEnd)
+//           questions.push(tempObject);
+//         });
+
+//         resolve(questions);
+//       }
+//     });
+//   });
+// };
+
+
+
+
+
 var getQuestions = (hallName) => {
   return new Promise ((resolve, reject) => {
     hallName = String(hallName);
     const inserts = [hallName];
-    const sql = 'SELECT townhall_id, question, response FROM questions q WHERE q.townhall_id =  (SELECT id FROM townhalls where name like (?))';
+    const sql = 'SELECT t.name as townHall, t.createDate as createDate, q.townhall_id, q.question, q.response FROM questions q INNER JOIN townhalls t ON q.townhall_id = t.id WHERE q.townhall_id = (SELECT id FROM townhalls where name like (?))';
     c.connection.query(sql, inserts, (err, results, data) => {
       if (err) {
         reject(err);
       } else {
-        //Init a question array that will hold an array of questions and answers ('questionArray')
-        //(refer to the questionArray [] that is created in the forEach loop below)
+        //Init a question array that will hold objects of questions and answers
         let questions = [];
-
         results.forEach(rowData => {
-          let questionArray = [];
-          questionArray.push(rowData.question);
+          let tempObject = {};
+          tempObject.question = rowData.question;
 
-          /*Check if there is an answer, if there is push it in as a second element to the
-          question array, otherwise do nothing*/
-          rowData.response ? questionArray.push(rowData.response) : null;
+          /*Check if there is an answer, if there is create an answer property on the object*/
+          rowData.response ? tempObject.answer = rowData.response : null;
 
-          //now push the question array into the main array to be returned to the front end
-          questions.push(questionArray);
+          tempObject.townHallName = rowData.townHall;
+          tempObject.createDate = rowData.createDate;
+          //now push the tempObject into the main array (that will be returned to frontEnd)
+          questions.push(tempObject);
         });
 
         resolve(questions);
@@ -117,13 +148,27 @@ var getQuestions = (hallName) => {
   });
 };
 
-const createTownHall = (title, creator, time) => {
-  //fill this in
-}
+
+
+
+
+
+
+
+
+var createTownHall = (townHallName) => {
+  return new Promise ((resolve, reject) => {
+    const inserts = [townHallName];
+    const sql = "INSERT INTO townhalls (name) VALUES (?)";
+    c.connection.query(sql, inserts, (err, results, data) => {
+      err ? reject(err) : resolve(results);
+    });
+  });
+};
 
 module.exports = {
   getNames: getNames,
   createQuestion: createQuestion,
   getQuestions: getQuestions,
-  createTownHall
+  createTownHall: createTownHall
 };

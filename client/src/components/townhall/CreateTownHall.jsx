@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import OfficialCreateTownHall from './OfficialCreateTownHall.jsx';
 import UserCreateTownHall from './UserCreateTownHall.jsx';
+import ViewTownHall from './ViewTownHall.jsx'
+
 
 export default class CreateTownHall extends Component {
 
