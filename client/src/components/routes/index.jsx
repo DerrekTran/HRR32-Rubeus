@@ -4,6 +4,7 @@ import TownHallContainer from '../townhall/TownHallContainer.jsx';
 import MapContainer from '../MapContainer.jsx';
 import ZipForm from '../ZipForm.jsx';
 import LoginForm from '../LoginForm.jsx';
+import Chat from '../Chat.jsx';
 
 const Routes = () => (
   <BrowserRouter>
@@ -11,6 +12,7 @@ const Routes = () => (
       <ul>
         <li>
           <Link to="/">Main</Link>
+          <Chat />
         </li>
         <li>
           <Link to="/townhall">TownHall</Link>
