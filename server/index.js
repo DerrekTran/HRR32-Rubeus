@@ -12,7 +12,7 @@ const io = socket(server);
 //Database Dependences Below
 const db = require('../db/users.js');
 const townhalls = require('../db/townhalls.js');
-//**********************************************
+/**********************************************/
 
 const apiHelpers = require('../lib/apiHelper.js');
 const dataHelpers = require('../lib/dataHelpers.js')
@@ -51,7 +51,8 @@ app.use(cookieParser());
 
 const port = process.env.PORT || 3000;
 
-//*********live-chat ***********//
+/*********live-chat ***********/
+//DESCRIPTION: socket on receiving a message, will emit out data to all connected users.
 io.on('connection', (client) => {
   console.log(client.id);
   console.log('socket io connection online!');
@@ -63,7 +64,7 @@ io.on('connection', (client) => {
  server.listen(port, () => {
   console.log(`server listening from ${port}!`)
 });
-// ////******route requests*********///
+/*************route requests***************/
 
 app.post('/login', (req, res, next) => {
   console.log(req.body);

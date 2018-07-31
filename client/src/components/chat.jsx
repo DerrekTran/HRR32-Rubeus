@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
-
+//socket.io-client for front end
 class Chat extends Component {
     constructor(props) {
         super(props);
@@ -12,14 +12,18 @@ class Chat extends Component {
             messages: [],
             isLoggedIn: false,
         };
-     
+    
         this.socket = io('localhost:3000');
-        
+        //when receivess data from server, adds message to message array to be displayed.
         this.socket.on('receive_message', (data) => {
             console.log('client received message from server')
             addMessage(data);
         });
-        
+        /***********************************
+         Function: addMessage
+         Input: data
+         output: adds message to message array that is being received from server
+         ***********************************/
         const addMessage = (data) => {
             console.log('data:', data);
             this.setState({messages: [...this.state.messages, data]});
@@ -30,6 +34,10 @@ class Chat extends Component {
         this.setUsername = this.setUsername.bind(this);
         this.setMessage = this.setMessage.bind(this);
     }
+
+    /***********************************
+    axios call to see if authenticated. If authenticated then will set username to name from userData 
+    ***********************************/
     componentDidMount () {
       console.log('mounted', this.state.username)
       axios.get('/checkuser')
@@ -43,7 +51,9 @@ class Chat extends Component {
           }
         })
     }
-
+     /***********************************
+        sends message and username to server to be delivered to all others connected to the socket
+    ***********************************/
     sendMessage (e) {
         e.preventDefault();
         console.log('message sent to server, this.state:', this.state);
